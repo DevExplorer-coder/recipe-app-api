@@ -29,7 +29,7 @@ class UserAdmin(BaseUserAdmin):
     readonly_fields = ['last_login']
     add_fieldsets = (
         (None, {
-            'classes': ('wide',),       #optionnal impact the CSS
+            'classes': ('wide',),       # optionnal impact the CSS
             'fields': (
                 'email',
                 'password1',
@@ -41,5 +41,6 @@ class UserAdmin(BaseUserAdmin):
             )
         }),
     )
+
 
 admin.site.register(models.User, UserAdmin)
