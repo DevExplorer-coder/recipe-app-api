@@ -18,10 +18,10 @@ def create_user(**params):
     return get_user_model().objects.create_user(**params)
 
 
-class PublicUserAPITests(TestCase):
+class PublicUserApiTests(TestCase):
     """Test the public features of the user API."""
 
-    def setUP(self):
+    def setUp(self):
         self.client = APIClient()
 
     def test_create_user_success(self):
@@ -35,7 +35,7 @@ class PublicUserAPITests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         user = get_user_model().objects.get(email=payload['email'])
-        self.assertEqual(user.check_password(payload['password']))
+        self.assertTrue(user.check_password(payload['password']))
         self.assertNotIn('password', res.data)
 
     def test_user_with_email_exists_error(self):
@@ -54,7 +54,7 @@ class PublicUserAPITests(TestCase):
         """Test an error is returned if password less than 5 chars."""
         payload = {
             'email': 'test@example.com',
-            'password': 'testpass123',
+            'password': 'pw',
             'name': 'Test Name',
         }
         res = self.client.post(CREATE_USER_URL, payload)
